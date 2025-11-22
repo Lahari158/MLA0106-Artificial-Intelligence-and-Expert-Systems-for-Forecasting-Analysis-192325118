@@ -1,0 +1,20 @@
+% Check if two queens attack each other
+safe(Q1, Q2, D) :- Q1 \= Q2, abs(Q1 - Q2) =\= D.
+
+% Check diagonals and row safety
+safe_queens([]).
+safe_queens([Q|Rest]) :-
+    safe_queens(Rest),
+    check(Q, Rest, 1).
+
+check(_, [], _).
+check(Q, [Q1|Rest], D) :-
+    safe(Q, Q1, D),
+    D1 is D + 1,
+    check(Q, Rest, D1).
+
+% Generate a solution for 4 queens
+four_queens(Solution) :-
+    Solution = [Q1, Q2, Q3, Q4],
+    permutation([1,2,3,4], Solution),
+    safe_queens(Solution).
